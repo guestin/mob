@@ -6,24 +6,32 @@ func NewSet() mapset.Set {
 	return mapset.NewThreadUnsafeSet()
 }
 
-func NewSetFrom(vs ...interface{}) mapset.Set {
+func NewSetFrom[T any](vs ...T) mapset.Set {
 	return NewSetFromSlice(vs)
 }
 
-func NewSetFromSlice(vs []interface{}) mapset.Set {
-	return mapset.NewThreadUnsafeSetFromSlice(vs)
+func NewSetFromSlice[T any](vs []T) mapset.Set {
+	set := mapset.NewThreadUnsafeSet()
+	for _, item := range vs {
+		set.Add(item)
+	}
+	return set
 }
 
 func NewConcurrentSet() mapset.Set {
 	return mapset.NewSet()
 }
 
-func NewConcurrentSetFrom(vs ...interface{}) mapset.Set {
+func NewConcurrentSetFrom[T any](vs ...T) mapset.Set {
 	return NewConcurrentSetFromSlice(vs)
 }
 
-func NewConcurrentSetFromSlice(vs ...interface{}) mapset.Set {
-	return mapset.NewSetFromSlice(vs)
+func NewConcurrentSetFromSlice[T any](vs ...T) mapset.Set {
+	set := mapset.NewSet()
+	for _, item := range vs {
+		set.Add(item)
+	}
+	return set
 }
 
 func SetAdd(dst mapset.Set, vs ...interface{}) mapset.Set {
